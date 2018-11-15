@@ -20,10 +20,10 @@ public class UIHealthDisplay : MonoBehaviour {
 		shipHs = hs;
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	/* Get health from ship and convert it to a percentage */
+	void LateUpdate () {
 		if (shipHs != null) {
-			percent = shipHs.Health / shipHs.MaxHealth;
+			percent = (float)System.Math.Round(shipHs.Health / shipHs.MaxHealth,4);
 			healthPercent.text = (percent * 100).ToString () + "%";
 			greenBar.fillAmount = (percent);
 
