@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ProjectileScript : MonoBehaviour {
 
-	//public float delay;
+
 
 	public float countdown;
 	bool alive = true;
@@ -12,36 +12,33 @@ public class ProjectileScript : MonoBehaviour {
 	protected float damage = 1.0f;
 	public GameObject ship;
 
+	/* Default lifetime of projectile */
 	public ProjectileScript()
 	{
 		countdown = 10f;
 	}
-
-	// Update is called once per frame
+		
 	void LateUpdate()
 	{
-
 		lifeTimeCheck();
-
 	}
 
-	public void setTeam(GameEnums.Team tm)
+	public GameEnums.Team Team
 	{
-		team = tm;
-	}
-
-	public GameEnums.Team getTeam()
-	{
-		return team;
-	}
-
-	public void OnTriggerEnter(Collider other)
-	{
-		if (other.gameObject != ship) {
-			ToDestroyObject (other);
-		}
+		get{return team;}
+		set{ team = value;}
 	}
 		
+	/* Check for any trigger as long as it is not the parent ship or another projectile */
+	public void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject != ship && other.gameObject.tag!="Projectile") {
+			toDestroyObject (other);
+		}
+	}
+
+	/* Call the damaged function if the collider has a HealthSystem component
+	 * Do the damage based on the variable */
 	public virtual void TriggerProjectile(Collider other)
 	{
 		if (other != null) {
@@ -52,19 +49,19 @@ public class ProjectileScript : MonoBehaviour {
 		}
 	}
 
-
+	/* Checklifetime of projectile */
 	void lifeTimeCheck()
 	{
 		countdown -= Time.deltaTime;
 		if (countdown <= 0.0f && alive)
 		{
-			ToDestroyObject(null);
+			toDestroyObject(null);
 			alive = false;
 		}
 	}
 		
-
-	virtual public void ToDestroyObject(Collider other)
+	/* Try to do damage to collider before destroying itself */
+	virtual public void toDestroyObject(Collider other)
 	{
 		TriggerProjectile (other);
 		Destroy (gameObject);

@@ -44,7 +44,7 @@ public class ProjectileAbility : Ability {
 			pro.GetComponent<ProjectileScript> ().ship = transform.parent.gameObject;
 			if (partSys != null)
 				partSys.Play ();
-			pro.GetComponent<ProjectileScript> ().setTeam (ship.GetComponent<ShipScript> ().team);
+			pro.GetComponent<ProjectileScript> ().Team =(ship.GetComponent<ShipScript> ().team);
 			pro.GetComponent<Rigidbody> ().velocity = transform.forward * (projectileSpeed + ship.GetComponent<Rigidbody> ().velocity.magnitude);
 		} else
 			Debug.Log ("Ability not ready!");
