@@ -380,6 +380,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 114969900934353248, guid: e49a8426ecca6054a842ce3e9877ca02,
+        type: 2}
+      propertyPath: team
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e49a8426ecca6054a842ce3e9877ca02, type: 2}
   m_IsPrefabParent: 0
@@ -3014,7 +3019,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redInitPos: {fileID: 711067685}
   blueInitPos: {fileID: 791335615}
-  playersUI: []
 --- !u!1001 &615353910
 Prefab:
   m_ObjectHideFlags: 0

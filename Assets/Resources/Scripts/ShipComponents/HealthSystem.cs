@@ -69,7 +69,10 @@ public class HealthSystem : MonoBehaviour {
 
 			
 		}
-		checkHealth(collision.gameObject.name);
+		if (collision.transform.parent != null)
+			checkHealth (collision.transform.parent.name);
+		else
+			checkHealth(collision.gameObject.name);
 	}
 
 	/* Check current health with attacker as a parameter */
