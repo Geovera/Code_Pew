@@ -264,7 +264,7 @@ MonoBehaviour:
   - {fileID: 1510424126821782, guid: 1f555f8b024375b4388c3e3a4c6286bb, type: 2}
   abilitiesKeys: 4301000044010000
   maxHealth: 6
-  maxSpeed: 15
+  maxSpeed: 10
   team: 0
   shotSpeed: 100
   bombSpawn: {fileID: 4220523502414612}

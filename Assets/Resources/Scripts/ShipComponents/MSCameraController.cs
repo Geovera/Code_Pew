@@ -199,6 +199,8 @@ public class MSCameraController : MonoBehaviour {
 	public void setCamera()
 	{
 		cameras [0]._camera.transform.position = transform.GetChild (0).transform.position;
+		transform.GetChild (0).transform.GetChild (0).gameObject.SetActive (false);
+		transform.GetChild (0).transform.GetChild (0).gameObject.SetActive (true);
 		shipMan = gameObject.GetComponent<ShipManager> ();
 		temp = new GameObject ("PlayerCams");
 		temp.transform.parent = transform.GetChild(0).transform;
@@ -371,7 +373,6 @@ public class MSCameraController : MonoBehaviour {
 			}
 			break;
 		case CameraType.TipoRotac.FollowPlayer:
-			//print (shipMan.IsAlive);
 			if (shipMan.IsAlive) {
 				if (!Physics.Linecast (transform.GetChild (0).transform.position, originalPosition [index].transform.position)) {
 					cameras [index]._camera.transform.position = Vector3.Lerp (cameras [index]._camera.transform.position, originalPosition [index].transform.position, Time.deltaTime * CameraSettings.followPlayer.displacementSpeed);

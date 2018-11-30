@@ -5,18 +5,20 @@ using UnityEngine;
 public class Player{
 
 	private Object[] ships;
+	GameObject thisShip;
 	GameObject playerPrefab;
 	GameObject abilitiesPrefab;
 	public ShipManager shipManager;
-	GameObject player;
+	public GameObject player;
 	GameManager gameManager;
 	GameEnums.Team team;
 	public GameObject playerUI;
 	public GameObject abilityIcon;
 	GameObject initUI;
+	public Camera cam;
 
 	/*Set team and a reference to the game manager
-	 * Load all Prefabs needed to init a ship*/
+	 * Load all Prefabs needed to init a thisShip*/
 	public Player(GameManager man, GameEnums.Team t)
 	{
 		team = t;
@@ -26,29 +28,32 @@ public class Player{
 		playerPrefab = Resources.Load ("Prefabs/Player/Player") as GameObject;
 		abilitiesPrefab = Resources.Load ("Prefabs/UI/Abilities") as GameObject;
 		ships = Resources.LoadAll("Prefabs/Ships");
+
 	}
 
-	/*Select Ship based on ShipSelection Scene*/
+	/*Select thisShip based on thisShipSelection Scene*/
 	GameObject selectShip()
 	{
 		int index = PlayerPrefs.GetInt("ship");
 		return (GameObject)ships[index];
 
 	}
-	/* Initialize a prefab Ship
+	/* Initialize a prefab thisShip
 	 * Set the team
 	 * Add user directed movement
-	 * Add a Ship Manager Script
+	 * Add a thisShip Manager Script
 	 * Initialize a Canvas UI with abilities
-	 * Added a camera to the ship
+	 * Added a camera to the thisShip
 	 * Add a health system and added to the UI
 	 * */
 	private void initShip()
 	{
-		GameObject aShip = GameObject.Instantiate (selectShip (), player.transform);
-		aShip.transform.parent = player.transform;
-		aShip.GetComponent<ShipScript> ().changeTeams(this.team);
-		aShip.AddComponent<PlayerMovement> ();
+		thisShip = GameObject.Instantiate (selectShip (), player.transform);
+		thisShip.transform.parent = player.transform;
+		thisShip.GetComponent<ShipScript> ().changeTeams(this.team);
+		thisShip.AddComponent<PlayerMovement> ();
+		cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+		thisShip.GetComponent<PlayerMovement> ().setPlayerCam(cam);
 		if (player.GetComponent<ShipManager> () == null) {
 			player.AddComponent<ShipManager> ();
 		}
@@ -63,21 +68,21 @@ public class Player{
 		GameObject.Destroy (initUI.transform.GetChild (2).gameObject);
 		GameObject abi = GameObject.Instantiate (abilitiesPrefab, initUI.transform);
 
-		shipManager.getAbilities(abi, abilityIcon, aShip);
+		shipManager.getAbilities(abi, abilityIcon, thisShip);
 		shipManager.IsAlive = true;
 		player.GetComponent<MSCameraController> ().setCamera ();
-		player.GetComponent<MSCameraController> ().originalPosition [0].transform.parent = aShip.transform;
-		player.GetComponent<MSCameraController> ().temp.transform.parent = aShip.transform;
-		aShip.AddComponent<HealthSystem> ();
-		aShip.GetComponent<HealthSystem> ().init (shipManager.shipAbilities.maxHealth);
-		aShip.GetComponent<HealthSystem> ().setDestruction (ShipScript.explodePath, 6);
-		aShip.GetComponent<HealthSystem> ().destroySeq = destroyPlayer;
-		aShip.GetComponent<HealthSystem> ().team = this.team;
-		initUI.transform.GetChild (1).GetComponent<UIHealthDisplay> ().init (aShip.GetComponent<HealthSystem> ());
+		player.GetComponent<MSCameraController> ().originalPosition [0].transform.parent = thisShip.transform;
+		player.GetComponent<MSCameraController> ().temp.transform.parent = thisShip.transform;
+		thisShip.AddComponent<HealthSystem> ();
+		thisShip.GetComponent<HealthSystem> ().init (shipManager.shipAbilities.maxHealth);
+		thisShip.GetComponent<HealthSystem> ().setDestruction (ShipScript.explodePath, 6);
+		thisShip.GetComponent<HealthSystem> ().destroySeq = destroyPlayer;
+		thisShip.GetComponent<HealthSystem> ().team = this.team;
+		initUI.transform.GetChild (1).GetComponent<UIHealthDisplay> ().init (thisShip.GetComponent<HealthSystem> ());
 
 
 	}
-	/*Reinstantiate a new ship*/
+	/* Reinstantiate a new ship */
 	public void restartShip()
 	{
 		if (!shipManager.IsAlive) {
@@ -97,14 +102,14 @@ public class Player{
 			player.transform.parent = null;
 			player.name = "Player";
 			initShip ();
-			//if(player.gameObject.GetComponent<ShipManager>()==null)
+			//if(player.gameObject.GetComponent<thisShipManager>()==null)
 			//if(player.gameObject.GetComponent<PlayerMovement>()==null)
 
 			//gameManager.plaMethods.Invoke ();
 		}
 	}
 	/*Delegate.
-	 * Destruction Sequence on ship death*/
+	 * Destruction Sequence on thisShip death*/
 	public void destroyPlayer(string me, string other)
 	{
 		shipManager.IsAlive = false;

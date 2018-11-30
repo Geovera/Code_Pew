@@ -385,6 +385,10 @@ Prefab:
       propertyPath: team
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1885791785911140, guid: e49a8426ecca6054a842ce3e9877ca02, type: 2}
+      propertyPath: m_TagString
+      value: Shield
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e49a8426ecca6054a842ce3e9877ca02, type: 2}
   m_IsPrefabParent: 0

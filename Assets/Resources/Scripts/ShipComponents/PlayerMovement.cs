@@ -19,9 +19,13 @@ public class PlayerMovement : MonoBehaviour {
 	void Start () {
 		th = new Throttle (9, 20);
 		shCmps = new ShipComponents (gameObject);
-		mouseCamera = FindObjectOfType<Camera>();
-
 	}
+
+	public void setPlayerCam(Camera cam)
+	{
+		mouseCamera = cam;
+	}
+		
 
 	/* Rotate turrets 
 	 * Move the ship has long as it is possible */
